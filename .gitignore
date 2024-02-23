@@ -1,0 +1,7 @@
+.terraform
+terraform/**/data.tf
+terraform/**/provider.tf
+terraform/**/terraform.tfvars
+terraform.tfstate*
+terraform/**/locals.tf
+.terraform.lock.hcl

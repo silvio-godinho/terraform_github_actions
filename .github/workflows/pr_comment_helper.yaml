@@ -1,0 +1,17 @@
+---
+on:
+  pull_request:
+    types: [opened, reopened]
+
+jobs:
+  guidelines:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+    - uses: mshick/add-pr-comment@v2
+      with:
+        message: |
+          Olá! Estes são os comandos que temos disponíveis via "comentário em PR" aqui neste repositório.
+            - `-tf=plan`  # Executa o "plano"
+            - `-tf=apply`  # Executa o "apply"

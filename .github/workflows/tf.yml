@@ -1,0 +1,31 @@
+on:
+  issue_comment:
+    types: [created, edited]
+  pull_request:
+    types: [synchronize]
+    paths: ["**/*.tf*"]
+
+jobs:
+  infra:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read  # Required for downloading artifacts.
+      contents: read  # Required for checking out repository.
+      id-token: write  # Required for assuming AWS role.
+      issues: read  # Required for getting PR branch.
+      pull-requests: write  # Required for commenting on PR.
+      statuses: write  # Required for setting commit status.
+    steps:
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+
+    - name: Provision TF
+      id: tf
+      uses: devsectop/tf-via-pr-comments@v9.1.0
+      with:
+        cli_uses: "terraform"
+        cli_version: "~1.6"
